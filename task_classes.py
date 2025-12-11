@@ -1,7 +1,7 @@
 import random as rd
 
 class BankAccount:
-    def __init__(self, balance = 0, amount = 0, operation):
+    def __init__(self, balance = 0, amount = 0, operation = ""):
         self.balance = balance
         self.user = {}
         self.transaction = {}
@@ -36,19 +36,65 @@ class BankAccount:
         print(f"Текущий баланс: {balance}")
     
     def deposit(self):
+        self.amount = float(input("Введите сумму для пополнения: "))
         self.balance += self.amount
         if self.operation in self.transaction:
             self.transaction[self.operation] = amount
         return self.balance, self.transaction
     
     def withdraw(self):
+        self.amount = float(input("Введите сумму для снятия: "))
         self.balance -= self.amount
         if self.operation in self.transaction:
-            self.transaction[self.operation] = amount
+            self.transaction[self.operation] = self.amount
         return self.balance, self.transaction
     
     def get_transaction_history(self):
         print(self.transaction)
         
 choice = int(input("Выберите действие: 1 - добавить владельца, 2 - удалить владельца, 3 - выход: "))
-amount = float(input("Введите сумму для пополнения/снятия: "))
+
+
+class SavingAccount(BankAccount):
+    def __init__(self, interest_rate):
+        super().__init__(self.balance, self.amount, self.operation)
+        self.interest_rate = interest_rate
+        
+    def add_interest(self):
+        self.balance *= self.interest_rate
+        return self.balance
+    def withdraw(self):
+        super().withdraw(self)
+        while self.amount > 500000:
+            print("Ошибка! Попробуйте другую сумму")
+            self.amount = float(input("Введите сумму для снятия: "))
+        self.balance -= self.amount
+        if self.operation in self.transaction:
+            self.transaction[self.operation] = self.amount
+        return self.balance, self.transaction
+    def __mul__(self, other = 1.1):
+        self.other = other
+        self.interest_rate *= self.other
+        return self.interest_rate
+
+class CreditAccout(BankAccount):
+    def __init__(self, credit_limit = 300000, debt):
+        super().__init__(self.balance, self.amount, self.operation)
+        self.credit_limit = credit_limit
+        self.debt = debt
+    def withdraw(self):
+        super().withdraw(self)
+        while (self.balance - self.amount + self.credit_limit) < 0:
+            print("Ошибка! Попробуйте другую сумму")
+            self.amount = float(input("Введите сумму для снятия: "))
+            self.debt = self.balance - self.amount + self.credit_limit
+        if self.operation in self.transaction:
+            self.transaction[self.operation] = self.amount
+        return self.balance, self.transaction
+    
+    def pay_debt(self):
+        print(f"Погашение задолжности: {self.debt} ")
+        self.balance -= self.debt
+        return self.balance
+    
+    def available_balance(self):
