@@ -79,11 +79,8 @@ class BankAccount():
         return self.transaction_app
 
 class SavingAccount(BankAccount):
-    def __init__(self, balance, amount, operation, interest_rate = 0.13):
-        super().__init__(balance, amount, operation)
-        self.balance = balance
-        self.amount = amount
-        self.operation = operation
+    def __init__(self, interest_rate = 1.13):
+        super().__init__()
         self.interest_rate = interest_rate
         
     def add_interest(self):
@@ -111,12 +108,12 @@ class SavingAccount(BankAccount):
         return self.interest_rate
 
 class CreditAccout(BankAccount):
-    def __init__(self, balance = 0, amount = 0, operation = "", credit_limit = 300000, debt = 0):
-        super().__init__(balance, amount, operation)
+    def __init__(self, credit_limit = 300000, debt = 0):
+        super().__init__()
         self.credit_limit = credit_limit
         self.debt = debt
     def withdraw(self):
-        super().withdraw(self)
+        super().withdraw()
         while (self.balance - self.amount + self.credit_limit) < 0:
             print("Ошибка! Попробуйте другую сумму")
             self.amount = float(input("Введите сумму для снятия: "))
@@ -141,14 +138,14 @@ class CreditAccout(BankAccount):
         print(f"Доступный баланс: {self.balance + self.credit_limit}")
     
 class StudentAccount(BankAccount):
-    def __init__(self, balance = 0, amount = 0, operation = "", university = "",  adult = 0, grant = 0):
-        super().__init__(balance, amount, operation)
+    def __init__(self, university = "",  adult = 0, grant = 0):
+        super().__init__()
         self.university = university
         self.adult = adult
         self.grant = grant
     
     def deposit(self):
-        super().deposit(self)
+        super().deposit()
         self.adult = int(input("Вы являетесь родителем? 1 - да, другое - нет: "))
         self.amount = float(input("Введите сумму для пополнения: "))
         while True:
@@ -167,7 +164,7 @@ class StudentAccount(BankAccount):
         return self.balance, self.transaction
     
     def withdraw(self):
-        super().withdraw(self)
+        super().withdraw()
         while self.amount > 100000:
             print("Ошибка! Сумма не должна превышать 100000")
             self.amount = float(input("Введите сумму для снятия: "))
