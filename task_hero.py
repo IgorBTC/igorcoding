@@ -8,6 +8,7 @@ class Goblin(Heroes):
     def spawn_goblin(self):
         print(f"Гоблин с {self.hp}HP появился в мире!")
     def attack_goblin(self):
+        global hp_hero
         hp_hero -= self.attack
         print(f"Гоблин атакует Рыцарь и наносит {self.attack} урона! У Рыцарь осталось {hp_hero} здоровья.")
         return hp_hero
@@ -16,6 +17,7 @@ class Skeleton(Heroes):
     def spawn_skeleton(self):
         print(f"Скелет с {self.hp}HP появился в мире!")
     def attack_skeleton(self):
+        global hp_hero
         hp_hero -= self.attack
         print(f"Скелет атакует Рыцарь и наносит {self.attack} урона! У Рыцарь осталось {hp_hero} здоровья.")
         return hp_hero
@@ -24,19 +26,21 @@ class Dragon(Heroes):
     def spawn_dragon(self):
         print(f"Игнис с {self.hp}HP появился в мире!")
     def attack_dragon_common(self):
+        global hp_hero
         hp_hero -= self.attack
         print(f"Игнис атакует Рыцарь и наносит {self.attack} урона! У Рыцарь осталось {hp_hero} здоровья.")
         return hp_hero
     def attack_dragon_breath(self):
+        global hp_hero
         hp_hero -= self.attack
         print(f"Вдобавок 'Игнис' опаляет Рыцарь своим дыханием, нанося ещё {self.attack} урона! У Рыцарь осталось {hp_hero} здоровья.")
         return hp_hero
     def attack_dragon_flame(self):
+        global hp_hero
         hp_hero -= self.post_of_flame
         print(f"Игнис выдыхает столб пламени на Рыцарь, нанося {self.post_of_flame} урона! У Рыцарь осталось {hp_hero} здоровья.")
         return hp_hero
 
-global hp_hero
 hp_hero = 250
 class_heroes = Heroes()
 class_goblin = Goblin()
